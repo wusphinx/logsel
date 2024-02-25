@@ -1,0 +1,10 @@
+{
+    "name": "Logseq Text Selector",
+    "version": "1.0",
+    "permissions": ["contextMenus", "storage"],
+    "background": {
+      "scripts": ["background.js"]
+    },
+    "manifest_version": 2,
+    "options_page": "options.html"
+  }
