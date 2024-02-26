@@ -3,7 +3,7 @@ const iname = "logseqclip";
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create({
     "id": iname,
-    "title": "logseq clip",
+    "title": "Logseq Clip",
     "contexts": ["selection"]
   });
 });
