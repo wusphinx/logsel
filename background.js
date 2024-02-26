@@ -1,9 +1,9 @@
-const iname = "logsel";
+const iname = "logseqclip";
 
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create({
     "id": iname,
-    "title": "logseq selector",
+    "title": "logseq clip",
     "contexts": ["selection"]
   });
 });
@@ -13,25 +13,32 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     let data = JSON.stringify({
       "method": "logseq.Editor.insertBlock",
       "args": [
-        "Test page",
-        "TODO" + " [" + info.selectionText + "]" + "(" + info.pageUrl + ")",
+        "Logseq Clip Page",
+        "TODO" + " [" + info.selectionText.slice(0, 45) + "]" + "(" + info.pageUrl + ")",
         {
           "isPageBlock": true
         }
       ]
     });
 
-    chrome.storage.sync.get(['endpoint', 'token'], function (items) {
-      sendDataToLogseq(items.endpoint, items.token, data);
+    chrome.storage.sync.get(['server', 'token'], function (items) {
+      console.log('logseq config:');
+      console.log('server:', items.server);
+      console.log('token:', items.token);
+
+      sendDataToLogseq(items.server, items.token, data);
     });
   }
 });
 
 
-function sendDataToLogseq(endpoint, token, data) {
+function sendDataToLogseq(server, token, data) {
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer " + token);
+  myHeaders.append("Authorization", `Bearer ${token}`);
   myHeaders.append("Content-Type", "application/json");
+
+  const urlPath = new URL("api", server);
+  endpoint = urlPath.toString();
 
   var requestOptions = {
     method: 'POST',

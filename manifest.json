@@ -1,5 +1,5 @@
 {
-    "name": "Logseq Text Selector",
+    "name": "Logseq Clip",
     "version": "1.0",
     "permissions": ["contextMenus", "storage"],
     "background": {
