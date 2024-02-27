@@ -1,27 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('save').addEventListener('click', function () {
-        var server = document.getElementById('logseq-server').value;
+        var endpoint = document.getElementById('logseq-endpoint').value;
         var token = document.getElementById('logseq-token').value;
 
-        if (!server || !token) {
-            alert('server and token are required!');
+        if (!endpoint || !token) {
+            alert('endpoint and token are required!');
             e.preventDefault();
             return;
         }
 
-        if (!healthCheckLogseq(server, token)) {
-            alert('please check server and token');
+        if (!healthCheckLogseq(endpoint, token)) {
+            alert('please check endpoint and token');
             return;
         }
 
-        chrome.storage.sync.set({ 'server': server, 'token': token }, function () {
-            console.log('saved server and token');
+        chrome.storage.sync.set({ 'endpoint': endpoint, 'token': token }, function () {
+            console.log('saved endpoint and token');
         });
     });
 });
 
 
-async function healthCheckLogseq(server, token) {
+async function healthCheckLogseq(endpoint, token) {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -38,8 +38,7 @@ async function healthCheckLogseq(server, token) {
             body: raw,
         };
 
-        const urlPath = new URL("api", server);
-        const response = await fetch(urlPath.toString(), requestOptions);
+        const response = await fetch(endpoint, requestOptions);
         return response.status === 200;
     } catch (error) {
         console.log('fetch error', error);

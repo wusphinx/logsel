@@ -21,24 +21,21 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
       ]
     });
 
-    chrome.storage.sync.get(['server', 'token'], function (items) {
+    chrome.storage.sync.get(['endpoint', 'token'], function (items) {
       console.log('logseq config:');
-      console.log('server:', items.server);
+      console.log('endpoint:', items.endpoint);
       console.log('token:', items.token);
 
-      sendDataToLogseq(items.server, items.token, data);
+      sendDataToLogseq(items.endpoint, items.token, data);
     });
   }
 });
 
 
-function sendDataToLogseq(server, token, data) {
+function sendDataToLogseq(endpoint, token, data) {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
   myHeaders.append("Content-Type", "application/json");
-
-  const urlPath = new URL("api", server);
-  endpoint = urlPath.toString();
 
   var requestOptions = {
     method: 'POST',
