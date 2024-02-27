@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Logseq Clip",
-    "version": "1.0",
+    "version": "0.0.1",
     "description": "save selected text and url to Logseq",
     "permissions": ["contextMenus", "storage"],
     "background": {
