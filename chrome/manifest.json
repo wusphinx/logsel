@@ -1,9 +1,12 @@
 {
   "name": "Logseq Clip",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "permissions": ["contextMenus", "storage"],
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "options.html"
   },
   "manifest_version": 3,
   "options_page": "options.html",
