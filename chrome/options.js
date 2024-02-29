@@ -1,47 +1,56 @@
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('save').addEventListener('click', function () {
-        var endpoint = document.getElementById('logseq-endpoint').value;
-        var token = document.getElementById('logseq-token').value;
+function saveOptions(e) {
+    e.preventDefault();
+    const endpoint = document.getElementById('logseq-endpoint').value;
+    const token = document.getElementById('logseq-token').value;
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
 
-        if (!endpoint || !token) {
-            alert('endpoint and token are required!');
-            e.preventDefault();
-            return;
-        }
-
-        if (!healthCheckLogseq(endpoint, token)) {
-            alert('please check endpoint and token');
-            return;
-        }
-
-        chrome.storage.sync.set({ 'endpoint': endpoint, 'token': token }, function () {
-            console.log('saved endpoint and token');
-        });
-    });
-});
-
-
-async function healthCheckLogseq(endpoint, token) {
-    try {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-        myHeaders.append("Content-Type", "application/json");
-
-        const raw = JSON.stringify({
+    fetch(endpoint, {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+        body: JSON.stringify({
             method: "logseq.Editor.getBlock"
+        })
+    })
+        .then(response => {
+            if (response.ok) {
+                chrome.storage.sync.set({
+                    endpoint: endpoint,
+                    token: token
+                }, function () {
+                    setStatus('ok', true);
+                });
+            } else {
+                setStatus('please check endpoint and token', false);
+            }
+        })
+        .catch(error => {
+            console.log('error', error);
+            setStatus('please check endpoint and token', false);
         });
+}
 
-        const requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            redirect: 'follow',
-            body: raw,
-        };
-
-        const response = await fetch(endpoint, requestOptions);
-        return response.status === 200;
-    } catch (error) {
-        console.log('fetch error', error);
-        return false;
+function setStatus(message, isSuccess) {
+    const status = document.getElementById('status');
+    status.textContent = message;
+    status.style.color = isSuccess ? 'green' : 'red';
+    if (isSuccess) {
+        setTimeout(function () {
+            status.textContent = '';
+        }, 750);
     }
 }
+
+function restoreOptions() {
+    chrome.storage.sync.get({
+        endpoint: '',
+        token: ''
+    }, function (items) {
+        document.getElementById('endpoint').value = items.endpoint;
+        document.getElementById('token').value = items.token;
+    });
+}
+document.addEventListener('DOMContentLoaded', restoreOptions);
+document.getElementById('options-form').addEventListener('submit', saveOptions);

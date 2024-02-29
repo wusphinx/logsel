@@ -8,6 +8,19 @@
             margin: 20px;
         }
 
+        .form-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-row label {
+            margin-right: 10px;
+            border-radius: 5px;
+            /* 这将使得输入框的边角变得圆润 */
+        }
+
         h1 {
             font-size: 24px;
         }
@@ -36,16 +49,20 @@
 
 <body>
     <h1>logseq config</h1>
-    <label>
-        logseq endpoint:
-        <input id="logseq-endpoint" type="text" placeholder="eg: http://localhost:12315/api">
-    </label>
-    <label>
-        logseq token:
-        <input id="logseq-token" type="text" placeholder="eg: 123456">
-    </label>
-    <button id="save">save</button>
-
+    <form id="options-form">
+        <div class="form-row">
+            <label for="endpoint">Endpoint:</label>
+            <input id="logseq-endpoint" type="text" placeholder="eg: http://localhost:12315/api">
+        </div>
+        </div>
+        <div class="form-row">
+            <label for="endpoint">Token:</label>
+            <input id="logseq-token" type="text" placeholder="eg: 123456">
+        </div>
+        </br>
+        <input type="submit" value="save">
+        <div id="status"></div>
+    </form>
     <script src="options.js"></script>
 </body>
 
