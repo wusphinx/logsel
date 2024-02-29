@@ -8,6 +8,30 @@
             margin: 20px;
         }
 
+        /* 添加到您的现有CSS中 */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: pink;
+            opacity: 0.7;
+            transform-origin: left top;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                top: -100%;
+                opacity: 1;
+                transform: rotateZ(0deg);
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+                transform: rotateZ(360deg);
+            }
+        }
+
         .form-row {
             display: flex;
             justify-content: flex-end;
@@ -48,7 +72,9 @@
 </head>
 
 <body>
-    <h1>logseq config</h1>
+    <div id="confetti-wrapper">
+    </div>
+
     <form id="options-form">
         <div class="form-row">
             <label for="endpoint">Endpoint:</label>
@@ -63,6 +89,7 @@
         <input type="submit" value="save">
         <div id="status"></div>
     </form>
+
     <script src="options.js"></script>
 </body>
 

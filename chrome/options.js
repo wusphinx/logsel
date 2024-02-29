@@ -20,7 +20,8 @@ function saveOptions(e) {
                     endpoint: endpoint,
                     token: token
                 }, function () {
-                    setStatus('ok', true);
+                    setStatus('Congrats', true);
+                    throwConfetti();
                 });
             } else {
                 setStatus('please check endpoint and token', false);
@@ -54,3 +55,32 @@ function restoreOptions() {
 }
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('options-form').addEventListener('submit', saveOptions);
+
+
+
+// 撒花效果的函数实现
+function throwConfetti() {
+    const confettiCount = 100;
+    const confettiWrapper = document.getElementById('confetti-wrapper');
+    confettiWrapper.innerHTML = ''; // 确保清除之前的撒花
+
+    for (let i = 0; i < confettiCount; i++) {
+        let confetti = document.createElement('div');
+        confetti.className = 'confetti';
+
+        // 随机颜色和动画的延时
+        confetti.style.backgroundColor = getRandomColor();
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear infinite`;
+
+        confettiWrapper.appendChild(confetti);
+    }
+
+    // 在动画完成后清除撒花元素
+    setTimeout(() => confettiWrapper.innerHTML = '', 5000);
+}
+
+function getRandomColor() {
+    const colors = ['#ff595e', '#ffca3a', '#8ac926', '#1982c4', '#6a4c93'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
