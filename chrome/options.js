@@ -45,6 +45,20 @@ function setStatus(message, isSuccess) {
 }
 
 function restoreOptions() {
+    chrome.storage.sync.get(["endpoint"]).then((data) => {
+        if (data.endpoint) {
+            console.log("Value is " + data.endpoint);
+            document.getElementById('logseq-endpoint').value = data.endpoint || '';
+        }
+    });
+
+    chrome.storage.sync.get(["token"]).then((data) => {
+        if (data.token) {
+            console.log("Value is " + data.token);
+            document.getElementById('logseq-token').value = data.token || '';
+        }
+    });
+
     chrome.storage.sync.get({
         endpoint: '',
         token: ''
