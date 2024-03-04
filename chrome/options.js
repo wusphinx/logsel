@@ -47,14 +47,14 @@ function setStatus(message, isSuccess) {
 function restoreOptions() {
     chrome.storage.sync.get(["endpoint"]).then((data) => {
         if (data.endpoint) {
-            console.log("Value is " + data.endpoint);
+            console.log("endpoint is " + data.endpoint);
             document.getElementById('logseq-endpoint').value = data.endpoint || '';
         }
     });
 
     chrome.storage.sync.get(["token"]).then((data) => {
         if (data.token) {
-            console.log("Value is " + data.token);
+            console.log("token is " + data.token);
             document.getElementById('logseq-token').value = data.token || '';
         }
     });
@@ -63,8 +63,8 @@ function restoreOptions() {
         endpoint: '',
         token: ''
     }, function (items) {
-        document.getElementById('endpoint').value = items.endpoint;
-        document.getElementById('token').value = items.token;
+        document.getElementById('logseq-endpoint').value = items.endpoint;
+        document.getElementById('logseq-token').value = items.token;
     });
 }
 document.addEventListener('DOMContentLoaded', restoreOptions);
