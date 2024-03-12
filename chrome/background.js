@@ -4,17 +4,18 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create({
     "id": iname,
     "title": "Logseq Clip",
-    "contexts": ["selection"]
+    "contexts": ["selection", "page"]
   });
 });
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
   if (info.menuItemId === iname) {
+    content = info.selectionText ? info.selectionText : tab.title;
     let data = JSON.stringify({
       "method": "logseq.Editor.insertBlock",
       "args": [
         "Logseq Clip Page",
-        "TODO" + " [" + info.selectionText.slice(0, 45) + "]" + "(" + info.pageUrl + ")",
+        "TODO" + " [" + content.slice(0, 45) + "]" + "(" + info.pageUrl + ")",
         {
           "isPageBlock": true
         }

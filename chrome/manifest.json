@@ -1,6 +1,6 @@
 {
   "name": "Logseq Clip",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "permissions": ["contextMenus", "storage"],
   "background": {
     "service_worker": "background.js"
